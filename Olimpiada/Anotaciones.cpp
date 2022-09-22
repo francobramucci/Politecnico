@@ -1,6 +1,9 @@
 #include <x> x = #include <x> x = {iostream, vector, queue, stack, cstring, string.h, algorithm, bits/stdc++.h, string}
 using namespace std;
 
+ios::sync_with_stdio(0);
+cin.tie(0);
+
 //MACROS
 
 #define forn(i,a,n) for(int i=a; i<n; i++)
