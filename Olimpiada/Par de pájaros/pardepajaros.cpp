@@ -1,18 +1,16 @@
 #include <iostream>
-#include <cmath>
-#include <algorithm>
-#include <string.h>
+#include <bits/stdc++.h>
 
 using namespace std;
-const int INF = 300*60000;
-const int MAX = 305;
-using ll = long long int;
+const int INF = 300*60000*10;
+const int MAXX = 60000 + 100;
+const int MAXY = 300 + 100;
 
-int a[60000];
+int a[MAXX];
 int i;
-ll memo[MAX][MAX];
+int memo[MAXY][MAXX];
 
-ll solve(int x, int y){
+int solve(int x, int y){
 	
 	if(x > 300) return INF;
 	if(x < 0) return INF;
@@ -25,6 +23,8 @@ ll solve(int x, int y){
 
 int main(){
 	freopen("pajaros.in", "r", stdin);
+	freopen("pajaros.out", "w", stdout);
+
 	cin >> i;
 
 	a[0] = 0;
@@ -32,6 +32,5 @@ int main(){
 		cin >> a[k];
 	}
 
-	cout << solve(0, 0);
-	fclose(stdin);
+	cout << solve(0, 0) << "\n";
 }
