@@ -13,20 +13,6 @@ char matriz[MAX][MAX];
 int n,m;
 
 string searchB(char matriz1[][MAX], int i, int j){
-	string s1 = INF;
-	string s2 = INF;
-	string s3 = INF;
-	string s4 = INF;
-
-	matriz1[i][j] = '#';
-
-	char matrizaux[MAX][MAX];
-
-	forn(i,0,n){
-		forn(j,0,m){
-			matrizaux[i][j] = matriz1[i][j];
-		}
-	}
 
 	int bandera = 0;
 
