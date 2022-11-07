@@ -31,9 +31,14 @@ void init(){
 void querie(int l, int r){
 	ll minir = INF;
 	int bl = l/k, br = r/k;
+	if(bl == br) for(int i = l; i <= r; i++) minir = min(minir, a[i]);
+	
+	else{
 	for(int i = l; i < (bl+1)*k; i++) minir = min(minir, a[i]);
 	for(int b = bl+1; b < br; b++) minir = min(minir, s[b]);
 	for(int i = br*k; i <= r; i++) minir = min(minir, a[i]);
+	}
+
 	cout << minir << endl;
 }
 
