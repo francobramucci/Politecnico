@@ -18,7 +18,7 @@ const int MAX = 200000+100;
 int main(){
 	vector<int> a;
 	vector<int> dif;
-	vector<int> b;
+	int b[MAX];
 	int n, d, f; cin >> n >> d >> f;
 
 	forn(i,n){ 
@@ -28,14 +28,27 @@ int main(){
 	sort(a.begin(), a.end());
 	
 	forn(i, n-1) dif.pb(a[i+1] - a[i]-1);
+	int k = sqrt(n-1), mayor = 0;
+	forn(i, n-1) b[i/k] += dif[i];	
 
-	forn(i, n-1){
-		forr(j, 0, sqrt(n-1)){
-			sum += dif[j+i];
+	forn(z, k+1){
+		int sum = 0, aux = 1, flag = 0;
+		forr(i, z, k+1){
+			if(sum + b[i] <= f){
+				if(i == k && k*k != n-1) aux += n-1-k*k;
+				else aux += k; 
+				sum +=b[i];
+			}
+			else{
+				forn(j, k){
+					if(sum + dif[i*k + j] <= f){ sum+=dif[i*k + j]; aux++;}
+					else{ flag = 1; break;}
+				}
+				if(i != z && flag == 1) break;
+			}
 		}
-		b.pb(sum);
-		sum = 0;
+		mayor = max(mayor, aux);
 	}
 
-
+	cout << mayor+f << endl;
 }
