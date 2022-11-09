@@ -29,7 +29,7 @@ int main(){
 	
 	forn(i, n-1) dif.pb(a[i+1] - a[i]-1);
 
-	ll sum; int mayor = 0, aux;
+	int sum; int mayor = 0, aux;
 
 	forn(i,n-1){
 		sum = 0, aux = 1;

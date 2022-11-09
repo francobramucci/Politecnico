@@ -29,35 +29,51 @@ int main(){
 	
 	forn(i, n-1) dif.pb(a[i+1] - a[i]-1);
 	int k = sqrt(n-1), mayor = 0;
-	forn(i, n-1) b[i/k] += dif[i]; //inicializacion	
+	
+	if(n > 10000){
+		forn(i, n-1) b[i/k] += dif[i]; //inicializacion	
 
-	forn(z, n-1){
-		int sum = 0, aux = 1, bandera = 0;
-		int m = z;
-		while(m < k*((z/k)+1) && m < n-1){
-			if(sum + dif[m] <= f){ sum+=dif[m]; aux++;}  //recorro el bloque actual
-			else{ bandera = 1; break;}
-			m++;
-		}
-		if(bandera != 1){
-			int r = k;
-			if(k*k != n-1) r = k+1;
-			forr(i, (z/k)+1, r){
-				if(sum + b[i] <= f){
-					if(i == k && k*k != n-1) aux += n-1-k*k;	//recorro los siguientes bloques
-					else aux += k; 
-					sum += b[i];
-				}
-				else{
-					forn(j, k){
-						if(sum + dif[i*k + j] <= f){ sum+=dif[i*k + j]; aux++;} //recorro parte del bloque
-						else break;
+		forn(z, n-1){
+			int sum = 0, aux = 1, bandera = 0;
+			int m = z;
+			while(m < k*((z/k)+1) && m < n-1){
+				if(sum + dif[m] <= f){ sum+=dif[m]; aux++;}  //recorro el bloque actual
+				else{ bandera = 1; break;}
+				m++;
+			}
+			if(bandera != 1){
+				int r = k;
+				if(k*k != n-1) r = k+1;
+				forr(i, (z/k)+1, r){
+					if(sum + b[i] <= f){
+						if(i == k && k*k != n-1) aux += n-1-k*k;	//recorro los siguientes bloques
+						else aux += k; 
+						sum += b[i];
 					}
-					break;
+					else{
+						forn(j, k){
+							if(sum + dif[i*k + j] <= f){ sum+=dif[i*k + j]; aux++;} //recorro parte del bloque
+							else break;
+						}
+						break;
+					}
 				}
 			}
+			mayor = max(mayor, aux);
 		}
-		mayor = max(mayor, aux);
+	}
+	else{
+			int sum, aux;
+
+		forn(i,n-1){
+			sum = 0, aux = 1;
+			forr(j,i,n-1){
+				sum += dif[j];
+				if(sum <= f) aux++;
+				else break;
+			}
+			if(aux > mayor) mayor = aux;
+		}
 	}
 
 	if(mayor+f > d) cout << d << endl;
