@@ -3,7 +3,7 @@
 using namespace std;
 
 #define ioshack ios_base::sync_with_stdio(false);cin.tie(NULL);
-#define forr(i,a,b) for(int i = (a); i < int(b); ++i)
+#define forr(i,a,b) for(int i = int(a); i < int(b); ++i)
 #define forn(i,n) forr(i,0,n)
 #define sz(v) int(v.size())
 #define endl '\n'

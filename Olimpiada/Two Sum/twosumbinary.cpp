@@ -19,7 +19,7 @@ void twoSum(vector<int>& nums, int target) {
 	sort(cop.begin(), cop.end());
 	
 	int pos;
-	vector<int>::iterator low1 ;
+	vector<int>::iterator low1;
 
 	if(cop[nums.size()] < target){ low1 = cop.end(); pos = nums.size();} 
 	else{ 
