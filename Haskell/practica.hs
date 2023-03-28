@@ -42,36 +42,73 @@ smap f (x:xs) = f x : smap f (smap f xs)
 {-
 2. Definir las siguientes funciones y determinar su tipo: 
 a) five, que dado cualquier valor, devuelve 5
-    five x = 5; Num p1 => p2 -> p1 
-b) apply, que toma una función y un valor, y devuelve el resultado de
-aplicar la función al valor dado
-    apply f x = f x; (t1 -> t2) -> t1 -> t2
-c) identidad, la función identidad
-    identidad x = x; p -> p
-d) first, que toma un par ordenado, y devuelve su primera componente
-    first x y =  x; p1 -> p2 -> p1
-e) derive, que aproxima la derivada de una función dada en un punto dado
-    derive h f x = (f (x+h) - f x) / h; Fractional a => a -> (a -> a) -> a -> a
-f) sign, la función signo
-    let sign n | n<0 = -1 | n > 0 = 1 | otherwise = 0; let sign n | n<0 = -1 | n > 0 = 1 | otherwise = 0
-g) vabs, la función valor absoluto (usando sign y sin usarla)
-    vabs x | x < 0 = (-x) | otherwise = x; Num a => a -> a
-    let vabs2 x = x * sign x; Num a => a -> a
-h) pot, que toma un entero y un número, y devuelve el resultado de
-elevar el segundo a la potencia dada por el primero
-
-i) xor, el operador de disyunción exclusiva
-
-j) max3, que toma tres números enteros y devuelve el máximo entre llos
-
-k) swap, que toma un par y devuelve el par con sus componentes invertidas
 -}
+five :: Num a => p -> a
+five x = 5
+
+{-b) apply, que toma una función y un valor, y devuelve el resultado de
+aplicar la función al valor dado
+-}
+apply :: (t1 -> t2) -> t1 -> t2
+apply f x = f x
+
+{-c) identidad, la función identidad
+-}
+identidad :: p -> p
+identidad x = x
+
+{-d) first, que toma un par ordenado, y devuelve su primera componente
+-}
+first :: p1 -> p2 -> p1
+first x y =  x
+
+{-e) derive, que aproxima la derivada de una función dada en un punto dado
+-}
+derive :: Fractional a => a -> (a -> a) -> a -> a
+derive h f x = (f (x+h) - f x) / h
+
+{-f) sign, la función signo
+-}
+sign :: (Ord a1, Num a1, Num a2) => a1 -> a2
+sign n | n<0 = -1 | n > 0 = 1 | otherwise = 0
+
+{-g) vabs, la función valor absoluto (usando sign y sin usarla)
+-}
+vabs :: (Ord a, Num a) => a -> a
+vabs x | x < 0 = (-x) | otherwise = x
+vabs2 :: (Num a1, Ord a1) => a1 -> a1
+vabs2 x = x * sign x;
+
+
+{-h) pot, que toma un entero y un número, y devuelve el resultado de
+elevar el segundo a la potencia dada por el primero
+*Eq es un tipo de dato que contiene a aquellas clases que permiten igualdad, tales como int, float, double*
+-}
+pot :: (Eq t, Num t, Num a) => t -> a -> a
+pot 0 y = 1
+pot x y = pot (x-1) y * y 
+
+
+{-i) xor, el operador de disyunción exclusiva
+-}
+myxor :: Bool -> Bool -> Bool
+myxor x y | x && y = True | x || y = True | otherwise = False
+
+{-j) max3, que toma tres números enteros y devuelve el máximo entre ellos
+-}
+max3 :: Ord a => a -> a -> a -> a
+max3 x y z = if x>y then if x>z then x else z else if y>z then y else z
+
+{-k) swap, que toma un par y devuelve el par con sus componentes invertidas
+-}
+swap :: (b, a) -> (a, b)
+swap (x,y) = (y,x)
 
 {-
 3) Definir una función que determine si un año es bisiesto o no, de
 acuerdo a la siguiente definición:
 
-año bisiesto 1. m. El que tiene un día más que el año común, añadido al mes de febrero. Se repite
+Año bisiesto 1. m. El que tiene un día más que el año común, añadido al mes de febrero. Se repite
 cada cuatro años, a excepción del último de cada siglo cuyo número de centenas no sea múltiplo
 de cuatro. (Diccionario de la Real Academia Espaola, 22ª ed.)
 
