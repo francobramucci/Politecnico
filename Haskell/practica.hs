@@ -1,7 +1,7 @@
 module Practica0 where
 
 import Data.List
-
+import Data.Char
 {-
 1) Los siguientes códigos tienen errores, cargar el archivo 20.Practica.0.hs en el interprete de Haskell
 GHCi, leer los mensajes de error y corregirlos hasta que el archivo se cargue correctamente.
@@ -109,11 +109,16 @@ swap (x,y) = (y,x)
 acuerdo a la siguiente definición:
 
 Año bisiesto 1. m. El que tiene un día más que el año común, añadido al mes de febrero. Se repite
-cada cuatro años, a excepción del último de cada siglo cuyo número de centenas no sea múltiplo
+cada cuatro años, a excepción del último de cada siglo, cuyo número de centenas no sea múltiplo
 de cuatro. (Diccionario de la Real Academia Espaola, 22ª ed.)
 
 ¿Cuál es el tipo de la función definida?
+*Prueba el primer caso posible (más a la izquierda) y luego prueba el segundo caso
+de modo que no es necesario preguntar nuevamente si es múltiplo de 100*
 -}
+
+esbisiesto :: Integral a => a -> Bool
+esbisiesto n | (mod n 4 == 0) && (mod n 100 /= 0) = True | mod n 400 == 0 = True | otherwise = False
 
 {-
 4) Dar al menos dos ejemplos de funciones que tengan cada uno de los siguientes tipos:
@@ -129,6 +134,46 @@ i) a -> Bool
 j) a -> a
 -}
 
+--a)
+division(x,y) = div x y
+modulo(x,y) = mod x y;
+
+--b)
+add x y = x+y
+mult x y = x*y
+sumarN n = \x-> n+x;
+
+--c)
+repfun f = f.f
+doble f x = f(f x)
+
+--d)
+espar = even
+div10 x = mod x 10 == 0
+
+--e)
+myand x y = x && y;
+myxor2 x y | x && y = True | x || y = True | otherwise = False
+
+--f)
+esascii(x,c) = x == ord c
+eschar(x,c) = chr x == c
+
+--g)
+primercompdiv5(x,y) = div x 5
+multcomps(x,y) = div x y
+
+--h)
+dupcompmitad x = (div x 2,div x 2)
+dupcompmenos5 x = (x-5, x-5)
+
+--i)
+verdad x = True
+falso x = False
+
+--j)
+identidad1 x = x;
+cuadrado x = x*x
 
 {-
 5) Definir las siguientes funciones usando listas por comprensión:
