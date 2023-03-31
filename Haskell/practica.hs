@@ -193,6 +193,20 @@ donde 0 <= a, b, c, d <= 'n'
 unique :: [Int] -> [Int]
 -}
 
+--a)
+divisores x = [n | n <-[1..x], mod x n == 0]
+
+--b)
+matches x xs = [n | n <-xs, n == x]
+
+--c)
+cuadrupla n = [(a,b,c,d) | a<-[0..n], b<-[0..n], c<-[0..n], d<-[0..n], a^2 + b^2 == c^2 + d^2]
+
+--d)
+apariciones x [] = 0
+apariciones x xs = if x == head xs then apariciones x (tail xs) + 1 else apariciones x (tail xs)
+
+unique xs = [x | x <-xs, apariciones x xs == 1]
 
 
 {-
