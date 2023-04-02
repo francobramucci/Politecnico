@@ -2,6 +2,7 @@ module Practica0 where
 
 import Data.List
 import Data.Char
+import Language.Haskell.TH (fromE)
 {-
 1) Los siguientes códigos tienen errores, cargar el archivo 20.Practica.0.hs en el interprete de Haskell
 GHCi, leer los mensajes de error y corregirlos hasta que el archivo se cargue correctamente.
@@ -18,14 +19,14 @@ case' (x:y:xs)      =  y : case' (x:xs)
 case' []          =  []
 
 -- c)
-mymap f []        =  []
-mymap f (x:xs)     =  f x : mymap f xs
+mymap f [] = []
+mymap f (x:xs) = f x : mymap f xs
 
 -- d)
 listNumeros = 1 : 2 : 3 : []
 
 -- e)
-[]     ++! ys = ys
+[] ++! ys = ys
 (x:xs) ++! ys = x : xs ++! ys
 
 -- f)
@@ -217,6 +218,9 @@ devuelva el producto escalar de dos listas.
 
 Sugerencia: Usar las funciones 'zip' y 'sum'. -}
 
+--6)
+scalarProduct xs ys = sum [j | (x, y) <- zip xs ys, let j = x*y]
+
 {-
 7) Sin usar funciones definidas en el
 preludio, defina recursivamente las siguientes funciones y
@@ -259,7 +263,54 @@ k) 'masDe', que dada una lista de listas 'xss' y un
 número 'n', devuelve la lista de aquellas listas de 'xss'
 con longitud mayor que 'n' -}
 
+--7)
+--a)
+sumaList [] = 0
+sumaList xs = head xs + sumaList (tail xs)
+
+--b)
+alguno [] = False
+alguno xs = head xs || alguno (tail xs)
+
+--c)
+todos [] = True
+todos xs = head xs && alguno (tail xs)
+
+--d)
+codes [] = []
+codes xs = (fromEnum (head xs) - fromEnum '0') : codes (tail xs) 
+
+--e)
+restos x [] = []
+restos x xs = mod (head xs) x : restos x (tail xs)
+
+--f)
+cuadrados [] = []
+cuadrados xs = head xs * head xs : cuadrados (tail xs)
+
+--g)
+long [] = 0
+long xs = 1 + long (tail xs)
+
+longitudes [] = []
+longitudes (x:xss) = long x : longitudes xss
+
+--h)
+orden xs = [(x,y) | (x,y)<-xs, x < 3*y]
+
+--i)
+pares xs = [x | x<-xs, mod x 2 == 0]
+
+--j)
+letras [] = []
+letras (x:xs) | x >= 'A' && x <= 'Z' || x >= 'a' && x <= 'z' = x : letras xs | otherwise = letras xs
+
+--k)
+masDe xss n = [x | x<-xss, long x > n]
+
 {-
 8) Redefinir las funciones del ejercicio anterior usando foldr, map y filter.
 ver su definición en https://hoogle.haskell.org/
 -}
+
+--8)
