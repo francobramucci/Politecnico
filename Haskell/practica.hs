@@ -3,6 +3,7 @@ module Practica0 where
 import Data.List
 import Data.Char
 import Language.Haskell.TH (fromE)
+import Distribution.Simple.Utils (xargs)
 {-
 1) Los siguientes códigos tienen errores, cargar el archivo 20.Practica.0.hs en el interprete de Haskell
 GHCi, leer los mensajes de error y corregirlos hasta que el archivo se cargue correctamente.
@@ -44,8 +45,9 @@ smap f (x:xs) = f x : smap f (smap f xs)
 2. Definir las siguientes funciones y determinar su tipo: 
 a) five, que dado cualquier valor, devuelve 5
 -}
+
 five :: Num a => p -> a
-five x = 5
+five _ = 5
 
 {-b) apply, que toma una función y un valor, y devuelve el resultado de
 aplicar la función al valor dado
@@ -136,7 +138,7 @@ j) a -> a
 -}
 
 --a)
-division(x,y) = div x y
+division f = f 1  + 1 
 modulo(x,y) = mod x y;
 
 --b)
@@ -145,8 +147,8 @@ mult x y = x*y
 sumarN n = \x-> n+x;
 
 --c)
-repfun f = f.f
-doble f x = f(f x)
+mult3 x y z = x*y*z
+funmas1 f x = f x +1
 
 --d)
 espar = even
@@ -174,7 +176,7 @@ falso x = False
 
 --j)
 identidad1 x = x;
-cuadrado x = x*x
+cuadrado w = cuadrado w
 
 {-
 5) Definir las siguientes funciones usando listas por comprensión:
@@ -207,7 +209,9 @@ cuadrupla n = [(a,b,c,d) | a<-[0..n], b<-[0..n], c<-[0..n], d<-[0..n], a^2 + b^2
 apariciones x [] = 0
 apariciones x xs = if x == head xs then apariciones x (tail xs) + 1 else apariciones x (tail xs)
 
-unique xs = [x | x <-xs, apariciones x xs == 1]
+apariciones2 x xs = [y | y<-xs, y==x] == [x]
+
+unique xs = [x | x <-xs, apariciones2 x xs]
 
 
 {-
@@ -219,7 +223,7 @@ devuelva el producto escalar de dos listas.
 Sugerencia: Usar las funciones 'zip' y 'sum'. -}
 
 --6)
-scalarProduct xs ys = sum [j | (x, y) <- zip xs ys, let j = x*y]
+scalarProduct xs ys = sum [x*y | (x, y) <- zip xs ys]
 
 {-
 7) Sin usar funciones definidas en el
@@ -266,31 +270,36 @@ con longitud mayor que 'n' -}
 --7)
 --a)
 sumaList [] = 0
-sumaList xs = head xs + sumaList (tail xs)
+sumaList (x:xs) = x + sumaList xs
 
 --b)
 alguno [] = False
-alguno xs = head xs || alguno (tail xs)
+alguno (x:xs) = x || alguno xs
 
 --c)
 todos [] = True
-todos xs = head xs && alguno (tail xs)
+todos (x:xs) = x && alguno xs
 
 --d)
-codes [] = []
-codes xs = (fromEnum (head xs) - fromEnum '0') : codes (tail xs) 
+code y [] = 0
+code y (x:xs) = if y == x then 0 else 1 + code y xs
 
+codeabc x = code x (['a'..'n'] ++ ['ñ'] ++ ['o'..'z'] ++ ['A'..'N'] ++ ['Ñ'] ++ ['O'..'Z']) 
+
+codes xs = [codeabc x | x<-xs]
 --e)
-restos x [] = []
-restos x xs = mod (head xs) x : restos x (tail xs)
+mymodule x y | x > 0 = mymodule (x-y) y | x < 0 = x+y | x == 0 = 0
+
+restos y [] = []
+restos y (x:xs) = mymodule x y : restos y xs
 
 --f)
 cuadrados [] = []
-cuadrados xs = head xs * head xs : cuadrados (tail xs)
+cuadrados (x:xs) = x * x : cuadrados xs
 
 --g)
 long [] = 0
-long xs = 1 + long (tail xs)
+long (x:xs) = 1 + long xs
 
 longitudes [] = []
 longitudes (x:xss) = long x : longitudes xss
@@ -299,11 +308,11 @@ longitudes (x:xss) = long x : longitudes xss
 orden xs = [(x,y) | (x,y)<-xs, x < 3*y]
 
 --i)
-pares xs = [x | x<-xs, mod x 2 == 0]
+pares xs = [x | x<-xs, mymodule x 2 == 0]
 
 --j)
 letras [] = []
-letras (x:xs) | x >= 'A' && x <= 'Z' || x >= 'a' && x <= 'z' = x : letras xs | otherwise = letras xs
+letras (x:xs) | x == 'ñ' || x == 'Ñ'|| x >= 'A' && x <= 'Z' || x >= 'a' && x <= 'z' = x : letras xs | otherwise = letras xs
 
 --k)
 masDe xss n = [x | x<-xss, long x > n]
@@ -314,3 +323,35 @@ ver su definición en https://hoogle.haskell.org/
 -}
 
 --8)
+
+--a)
+sumafold xs = foldr (+) 0 xs 
+
+--b)
+algunofold xs = foldr (||) False xs
+
+--c)
+todosfold xs = foldr (&&) True xs
+
+--d)
+codesmap xs = map codeabc xs
+
+--e)
+restosmap y xs = map (\w-> mymodule w y) xs 
+
+--f)
+cuadradosmap xs = map (\x->x*x) xs
+
+--g)
+longitudesmap xs = map long xs
+
+--h) Recordar que para filter las funciones deben retornar Bool
+filterorden (x,y) = x<y*3
+ordenfilter xs = filter filterorden xs 
+
+--i)
+paresfilter xs = filter even xs
+
+--j)
+filterletras x = x == 'ñ' || x == 'Ñ'|| x >= 'A' && x <= 'Z' || x >= 'a' && x <= 'z'
+letrasfilter xs = filter filterletras xs
