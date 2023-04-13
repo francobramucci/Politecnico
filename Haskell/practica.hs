@@ -1,5 +1,5 @@
 module Practica0 where
-
+import Data.List (nub)
 import Data.List
 import Data.Char
 import Language.Haskell.TH (fromE)
@@ -110,11 +110,9 @@ swap (x,y) = (y,x)
 {-
 3) Definir una función que determine si un año es bisiesto o no, de
 acuerdo a la siguiente definición:
-
 Año bisiesto 1. m. El que tiene un día más que el año común, añadido al mes de febrero. Se repite
 cada cuatro años, a excepción del último de cada siglo, cuyo número de centenas no sea múltiplo
 de cuatro. (Diccionario de la Real Academia Espaola, 22ª ed.)
-
 ¿Cuál es el tipo de la función definida?
 *Prueba el primer caso posible (más a la izquierda) y luego prueba el segundo caso
 de modo que no es necesario preguntar nuevamente si es múltiplo de 100*
@@ -180,17 +178,13 @@ cuadrado w = cuadrado w
 
 {-
 5) Definir las siguientes funciones usando listas por comprensión:
-
 a) 'divisors', que dado un entero positivo 'x' devuelve la
 lista de los divisores de 'x' (o la lista vacía si el entero no es positivo)
-
 b) 'matches', que dados un entero 'x' y una lista de enteros descarta
 de la lista los elementos distintos a 'x'
-
 c) 'cuadrupla', que dado un entero 'n', devuelve todas las cuadruplas
 '(a,b,c,d)' que satisfacen a^2 + b^2 = c^2 + d^2,
 donde 0 <= a, b, c, d <= 'n'
-
 (d) 'unique', que dada una lista 'xs' de enteros, devuelve la lista
 'xs' sin elementos repetidos
 unique :: [Int] -> [Int]
@@ -211,15 +205,20 @@ apariciones x xs = if x == head xs then apariciones x (tail xs) + 1 else aparici
 
 apariciones2 x xs = [y | y<-xs, y==x] == [x]
 
-unique xs = [x | x <-xs, apariciones2 x xs]
+unique xs = [x | x <-xs, apariciones x xs == 1]
 
+{-
+Version de unique del profe
 
+elem' x xs = not([y | y<-xs, e==x] == [])
+drop' n xs = [x | (i,x) <- zip xs [1..], i>n]
+unique' xs = [u | (i,u)<- zip xs [1..], not (elem' u (drop i xs)) ]
+-}
 {-
 6) El producto escalar de dos listas de enteros de igual longitud
 es la suma de los productos de los elementos sucesivos (misma
 posición) de ambas listas.  Definir una función 'scalarProduct' que
 devuelva el producto escalar de dos listas.
-
 Sugerencia: Usar las funciones 'zip' y 'sum'. -}
 
 --6)
@@ -229,40 +228,29 @@ scalarProduct xs ys = sum [x*y | (x, y) <- zip xs ys]
 7) Sin usar funciones definidas en el
 preludio, defina recursivamente las siguientes funciones y
 determine su tipo más general:
-
 a) 'suma', que suma todos los elementos de una lista de números
-
 b) 'alguno', que devuelve True si algún elemento de una
 lista de valores booleanos es True, y False en caso
 contrario
-
 c) 'todos', que devuelve True si todos los elementos de
 una lista de valores booleanos son True, y False en caso
 contrario
-
 d) 'codes', que dada una lista de caracteres, devuelve la
 lista de sus ordinales
-
 e) 'restos', que calcula la lista de los restos de la
 división de los elementos de una lista de números dada por otro
 número dado
-
 f) 'cuadrados', que dada una lista de números, devuelva la
 lista de sus cuadrados
-
 g) 'longitudes', que dada una lista de listas, devuelve la
 lista de sus longitudes
-
 h) 'orden', que dada una lista de pares de números, devuelve
 la lista de aquellos pares en los que la primera componente es
 menor que el triple de la segunda
-
 i) 'pares', que dada una lista de enteros, devuelve la lista
 de los elementos pares
-
 j) 'letras', que dada una lista de caracteres, devuelve la
 lista de aquellos que son letras (minúsculas o mayúsculas)
-
 k) 'masDe', que dada una lista de listas 'xss' y un
 número 'n', devuelve la lista de aquellas listas de 'xss'
 con longitud mayor que 'n' -}
@@ -278,7 +266,7 @@ alguno (x:xs) = x || alguno xs
 
 --c)
 todos [] = True
-todos (x:xs) = x && alguno xs
+todos (x:xs) = x && todos xs
 
 --d)
 code y [] = 0
@@ -355,3 +343,29 @@ paresfilter xs = filter even xs
 --j)
 filterletras x = x == 'ñ' || x == 'Ñ'|| x >= 'A' && x <= 'Z' || x >= 'a' && x <= 'z'
 letrasfilter xs = filter filterletras xs
+
+{-
+9) Definir una funcion collect que dada una lista de tuplas (clave, valor) retorne una lista de tuplas donde 
+el primer valor de la tupla sea la clave y el segundo sea la lista de valores asociados a la clave. Puede ser recursiva
+y se pueden utilizar funciones auxiliares.
+-}
+
+primera [] = []
+primera [(x,y)] = [x]
+primera ((x,y):ol) = x : primera ol
+
+res x ol = [y | (n,y) <- ol, n == x]
+
+clave [] ol = []
+clave [x] ol = (x, res x ol) : clave [] ol
+clave (x:xs) ol = (x, res x ol) : clave xs ol
+
+collect ol = clave (nub (primera ol)) ol
+
+
+
+
+
+{-
+10) Definir "map" usando "foldr".
+-}
