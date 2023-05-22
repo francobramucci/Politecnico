@@ -62,3 +62,35 @@ euler n = sum[x | x<-[1..(n-1)], mod x 3 == 0 || mod x 5 == 0]
 --f)
 copias x = [x | _<-[1..x]]
 expandir xs = concat [copias x | x <-xs]
+
+--3)
+--a)
+hola f = \x -> if x then (f 0 == 0) else True  
+--b
+chau x = if x then \y -> y > 5 else \y -> y > 5
+--c
+buenas c = if c == 'a' then 'b' else 'a'
+noches c | c == 'a' = 'a'
+
+--d
+pan x f = if (f (x+1)) then [x] else [div x 2]
+
+--e
+queso (x:xs) f = [f x]
+
+--f
+leche (x:xs) f | (f (head x)) = x
+
+--g
+juan (a,b,c) = (a>5 && b/2 == 4.1 && c < 0)
+
+--h
+rasta (a,b,c) n | div n 2 == 4 = c
+
+--i
+rucu (a,b,c) n | (a == b) && (b == c) && div n 2 == 20 = a
+
+
+--4 
+--a foo1 :: Bool -> (Bool -> Bool)
+--b foo2 :: (Int -> Int) -> (Int -> Int) -> Int  
