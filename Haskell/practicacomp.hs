@@ -93,4 +93,35 @@ rucu (a,b,c) n | (a == b) && (b == c) && div n 2 == 20 = a
 
 --4 
 --a foo1 :: Bool -> (Bool -> Bool)
---b foo2 :: (Int -> Int) -> (Int -> Int) -> Int  
+--b foo2 :: (a -> b) -> (c -> a) -> c -> b
+--c foo3 :: (a -> b -> c) -> a -> b -> c
+--d foo4 :: (a -> b) -> a -> b -> [b]
+--e foo5 :: c -> (b -> c) -> b -> [c]
+--f foo6 :: [a] -> (b->a) -> b -> [a]
+--g foo7 :: [[a]] -> ([[a]]->Bool) -> [a]
+--h foo8 :: [a] -> ([a]->Bool) -> [a]
+--i foo9 ::  
+
+--5)
+--a
+-- foldr [] e f = e
+-- foldr [x] e f = f x e
+-- foldr (x:xs) e f = f x foldr xs 
+
+-- (f 1: 2 : 3 : 4 )
+
+
+mapfold f xs = foldr ((:) . f) [] xs
+
+--b
+filterfold f (x:xs) = foldr filtro [] (x:xs)
+    where
+        filtro x acc
+            | f x = x:acc
+            | otherwise = acc
+
+--c
+unzipfold xs = foldr (\(x,y) (as, bs) -> (x:as, y:bs)) ([],[]) xs 
+
+--d
+
