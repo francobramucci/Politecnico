@@ -21,7 +21,7 @@ nat2Int (Succ x) = nat2Int x + 1
 
 --2)
 
-data Arb = E | H Int | N Arb Arb deriving Show
+--data Arb = E | H Int | N Arb Arb deriving Show
 
 data Cmd = L | R deriving(Show,Eq)
 
@@ -35,19 +35,26 @@ data Cmd = L | R deriving(Show,Eq)
 -- selec (x:xs) (N izq der) = if(x == L) then selec xs izq else selec xs der 
 
 
-selec [] arb = arb  
-selec (L:xs) (N izq der) = selec xs izq
-selec (R:xs) (N izq der) = selec xs der 
+-- selec [] arb = arb  
+-- selec (L:xs) (N izq der) = selec xs izq
+-- selec (R:xs) (N izq der) = selec xs der 
 
---c)
--- addToList c [] = []
--- addToList c (x:xs) = (c : x) : addToList c xs
+-- --c)
+-- -- addToList c [] = []
+-- -- addToList c (x:xs) = (c : x) : addToList c xs
 
-enum E = []  
-enum (H _) = [[]]  
-enum (N izq der) = map (L:) (enum izq) ++ map (R:) (enum der)  
+-- -- enum E = []  
+-- -- enum (H _) = [[]]  
+-- -- enum (N izq der) = map (L:) (enum izq) ++ map (R:) (enum der)  
 
 
+--4)
+--a)
 
+data Bin a = E | N (Bin a) a (Bin a) deriving Show
+
+contar bst 0 = 1
+contar E n = 0
+contar (N izq x der) n = contar izq (n-1) + contar der (n-1) 
 
 
