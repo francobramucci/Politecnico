@@ -39,9 +39,15 @@ selec [] arb = arb
 selec (L:xs) (N izq der) = selec xs izq
 selec (R:xs) (N izq der) = selec xs der 
 
-enum (N E (H b)) = 
-enum (N (H a) E) = 
-enum (N izq der) = L : enum izq 
+--c)
+-- addToList c [] = []
+-- addToList c (x:xs) = (c : x) : addToList c xs
+
+enum E = []  
+enum (H _) = [[]]  
+enum (N izq der) = map (L:) (enum izq) ++ map (R:) (enum der)  
+
+
 
 
 
