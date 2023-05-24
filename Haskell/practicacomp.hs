@@ -8,6 +8,18 @@ borrarUltimo [] = []
 borrarUltimo [x] = []
 borrarUltimo (x:xs) = x : borrarUltimo xs
 
+--b)
+primera [] = []
+primera ((x,y):ol) = x : primera ol
+
+res x [] = []
+res x (o:ol) = if fst o == x then snd o : res x ol else res x ol
+
+clave [] ol = []
+clave (x:xs) ol = (x, res x ol) : clave xs ol
+
+collect ol = clave (nub (primera ol)) ol
+
 --c)
 serie [] = []
 serie [x] = [] : [[x]]
@@ -124,4 +136,9 @@ filterfold f (x:xs) = foldr filtro [] (x:xs)
 unzipfold xs = foldr (\(x,y) (as, bs) -> (x:as, y:bs)) ([],[]) xs 
 
 --d
+pair2List (a, bs) = foldr (\x xs -> (a,x) : xs) [] bs
 
+--e
+
+maxl x (y:ys) = if (snd x) - (fst x ) > (snd y) - (fst y) then x:ys else y:ys
+maxSec xs = (foldr maxl [(0,0)] xs) !! 0

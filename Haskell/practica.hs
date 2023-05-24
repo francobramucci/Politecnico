@@ -365,7 +365,3 @@ collect ol = clave (nub (primera ol)) ol
 
 
 
-
-{-
-10) Definir "map" usando "foldr".
--}
