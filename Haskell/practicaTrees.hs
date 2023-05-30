@@ -5,7 +5,7 @@ import Data.List
 --1 
 data Nat = Cero | Succ Nat deriving Show
 
---a) Succ es constructor
+--a) Succ es constructor. Succ :: Nat -> Nat
 
 --b)
 int2Nat 0 = Cero
@@ -15,6 +15,10 @@ int2Nat x = Succ(int2Nat (x-1))
 suma Cero y = y
 suma (Succ x) y = suma x (Succ y)
 
+add n Cero = n
+add n (Succ m) = Succ (add m n)
+
+
 --d)
 nat2Int Cero = 0
 nat2Int (Succ x) = nat2Int x + 1
@@ -23,9 +27,9 @@ nat2Int (Succ x) = nat2Int x + 1
 
 --data Arb = E | H Int | N Arb Arb deriving Show
 
-data Cmd = L | R deriving(Show,Eq)
+--data Cmd = L | R deriving(Show,Eq)
 
---a) N es constructor
+--a) N :: Arb -> Arb -> Arb
 --b)
 
 -- selec xs E = E
@@ -109,15 +113,15 @@ data Cmd = L | R deriving(Show,Eq)
 
 --g)
 
-data Color = R | B deriving Show
-data RBT a = E | T Color (RBT a) a (RBT a)
+-- data Color = R | B deriving Show
+-- data RBT a = E | T Color (RBT a) a (RBT a)
 
-alturab E = 0
-alturab (T B izq der) = 1 + alturab izq
-alturab (T R izq der) = 0 + alturab izq
+-- alturab E = 0
+-- alturab (T B izq der) = 1 + alturab izq
+-- alturab (T R izq der) = 0 + alturab izq
 
-alturablack (T R izq der) m = alturablack izq m || alturablack der m 
-alturablack (T B izq der) m = alturablack izq (m-1) 
+-- alturablack (T R izq der) m = alturablack izq m || alturablack der m 
+-- alturablack (T B izq der) m = alturablack izq (m-1) 
 
 --esrbt (T a izq der) =  
 
