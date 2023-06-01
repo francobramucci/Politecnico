@@ -63,11 +63,14 @@ data BST a = E | N (BST a) a (BST a)
 maximum1 (N E x E) = x
 maximum1 (N l x r) = maximum1 r
 
+minimum1 (N E x E) = x
+minimum1 (N l x r) = minimum1 l
+
 checkBST E = True
 checkBST (N E x E) = True
-checkBST (N E x r@(N l2 x2 r2)) = x2 > x && checkBST r
-checkBST (N l@(N l1 x1 r1) x E) = x1 <= x && checkBST l
-checkBST (N l@(N l1 x1 r1) x r@(N l2 x2 r2)) = x2 > x && x1 <= x && checkBST l && checkBST r 
+checkBST (N E x r) = minimum1 r > x && checkBST r
+checkBST (N l x E) = maximum1 l <= x && checkBST l
+checkBST (N l x r) = minimum1 r > x && maximum1 l <= x && checkBST l && checkBST r
 
 --data Linea = L{linea :: String, pos :: Int} deriving (Show)
 
@@ -274,6 +277,6 @@ checkBST (N l@(N l1 x1 r1) x r@(N l2 x2 r2)) = x2 > x && x1 <= x && checkBST l &
 --                   in g hs
 
 
-Notas 30/05:
+--Notas 30/05:
 
 
