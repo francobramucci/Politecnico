@@ -1,7 +1,8 @@
 module Practica2 where
 
 import Data.List
---1
+
+--1)
 data Color = C{red :: Int, green :: Int, blue :: Int} deriving (Show)
 
 mezclar x y = C (div (red x+red y) 2) (div (green x + green y) 2) (div (blue x + blue y) 2)
@@ -16,6 +17,7 @@ mezclart (a,b,c) (a1,b1,c1) = ((a+a1)/2,(b+b1)/2,(c+c1)/2)
 
 type Linea = ([Char], Int)
 
+--2)
 vacia = ([],0)
 moverIzq (xs, n) = if n > 0 then (xs,n-1) else (xs, n)
 moverDer (xs, n) = if n < length xs then (xs, n+1) else (xs, n)
@@ -35,6 +37,7 @@ borrar (xs, n) = (bor xs n, n-1)
 bor (x:xs) 1 = xs
 bor (x:xs) n = x : bor xs (n-1) 
 
+--3)
 data CList a = EmptyCL | CUnit a | Consnoc a (CList a) a deriving Show
 
 headCL (CUnit a) = CUnit a
@@ -44,15 +47,27 @@ tailCL (CUnit a) = EmptyCL
 tailCL (Consnoc i EmptyCL f) = CUnit f
 tailCL (Consnoc i clist f) = Consnoc ((\(CUnit a)-> a) (headCL clist)) (tailCL clist) f  
 
-isEmptyCL clist = clist == EmptyCL
+isEmptyCL EmptyCL = True
+isEmptyCL (CUnit a) = False
+isEmptyCL (Consnoc a b c) = False
 
 isCUnit EmptyCL = False
 isCUnit (CUnit a) = True
 isCUnit (Consnoc a b c) = False
 
---2
+--4
 
+--5
+data BST a = E | N (BST a) a (BST a)
 
+maximum1 (N E x E) = x
+maximum1 (N l x r) = maximum1 r
+
+checkBST E = True
+checkBST (N E x E) = True
+checkBST (N E x r@(N l2 x2 r2)) = x2 > x && checkBST r
+checkBST (N l@(N l1 x1 r1) x E) = x1 <= x && checkBST l
+checkBST (N l@(N l1 x1 r1) x r@(N l2 x2 r2)) = x2 > x && x1 <= x && checkBST l && checkBST r 
 
 --data Linea = L{linea :: String, pos :: Int} deriving (Show)
 
@@ -259,5 +274,6 @@ isCUnit (Consnoc a b c) = False
 --                   in g hs
 
 
+Notas 30/05:
 
 
