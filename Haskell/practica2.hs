@@ -72,6 +72,14 @@ checkBST (N E x r) = minimum1 r > x && checkBST r
 checkBST (N l x E) = maximum1 l <= x && checkBST l
 checkBST (N l x r) = minimum1 r > x && maximum1 l <= x && checkBST l && checkBST r
 
+--6
+completo x 0 = E
+completo x n = N (completo x (n-1)) x (completo x (n-1))
+
+balanceado x 0 = E
+balanceado x n = 
+
+
 --data Linea = L{linea :: String, pos :: Int} deriving (Show)
 
 -- data Reserv = Ins Char | D | L | R deriving Show
